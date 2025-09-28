@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Quest for Kids</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(135deg, #e0f7fa 0%, #bbdefb 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background: #4a90e2;
+            color: white;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        main {
+            flex: 1;
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .intro {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .intro h2 {
+            color: #2a5d9f;
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+
+        .intro p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            color: #555;
+        }
+
+        .start-btn {
+            background: #ff6b6b;
+            color: white;
+            padding: 1rem 2rem;
+            font-size: 1.3rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.3s, background 0.3s;
+            box-shadow: 0 4px 8px rgba(255,107,107,0.3);
+        }
+
+        .start-btn:hover {
+            background: #ff5252;
+            transform: translateY(-2px);
+        }
+
+        #quiz-section {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            display: none;
+        }
+
+        #quiz-section h2 {
+            color: #2a5d9f;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 1.8rem;
+        }
+
+        .question {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #4a90e2;
+        }
+
+        .question p {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            color: #2a5d9f;
+        }
+
+        .options {
+            display: grid;
+            gap: 0.8rem;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .option:hover {
+            border-color: #4a90e2;
+            background: #f0f8ff;
+            transform: translateX(5px);
+        }
+
+        .option input {
+            margin-right: 1rem;
+            transform: scale(1.2);
+        }
+
+        .option label {
+            cursor: pointer;
+            font-size: 1.1rem;
+            flex: 1;
+        }
+
+        .quiz-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            gap: 1rem;
+        }
+
+        .quiz-btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .prev-btn {
+            background: #6c757d;
+            color: white;
+        }
+
+        .prev-btn:hover {
+            background: #5a6268;
+        }
+
+        .next-btn {
+            background: #4a90e2;
+            color: white;
+        }
+
+        .next-btn:hover {
+            background: #357abd;
+        }
+
+        .submit-btn {
+            background: #28a745;
+            color: white;
+        }
+
+        .submit-btn:hover {
+            background: #218838;
+        }
+
+        #results {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            display: none;
+        }
+
+        #results h2 {
+            color: #2a5d9f;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+        }
+
+        .career-card {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 5px solid #4a90e2;
+            transition: transform 0.3s;
+        }
+
+        .career-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(74,144,226,0.2);
+        }
+
+        .career-card h3 {
+            color: #1a3d7c;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .career-info {
+            display: grid;
+            gap: 0.8rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-item strong {
+            color: #2a5d9f;
+            min-width: 120px;
+        }
+
+        section#coming-soon {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 3rem 0;
+            box-shadow: 0 5px 15px rgba(255,152,0,0.1);
+        }
+
+        section#coming-soon h2 {
+            color: #e65100;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        #coming-soon ul {
+            list-style: none;
+            display: grid;
+            gap: 1rem;
+        }
+
+        #coming-soon li {
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #ff9800;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        #coming-soon li::before {
+            content: "✨";
+            font-size: 1.2rem;
+        }
+
+        section#reviews {
+            background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 3rem 0;
+            box-shadow: 0 5px 15px rgba(46,125,50,0.1);
+        }
+
+        section#reviews h2 {
+            color: #2e7d32;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        #review-form {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+
+        #review-form textarea {
+            width: 100%;
+            min-height: 100px;
+            border: 2px solid #4caf50;
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: inherit;
+            font-size: 1rem;
+            resize: vertical;
+            margin-bottom: 1rem;
+        }
+
+        #review-form button {
+            background: #4caf50;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: background 0.3s;
+        }
+
+        #review-form button:hover {
+            background: #45a049;
+        }
+
+        #reviews-list {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .review-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid #4caf50;
+            font-style: italic;
+            position: relative;
+        }
+
+        .review-item::before {
+            content: """;
+            font-size: 2rem;
+            color: #4caf50;
+            position: absolute;
+            top: 0.5rem;
+            left: 0.5rem;
+        }
+
+        footer {
+            background: #2a5d9f;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            .intro h2 {
+                font-size: 1.6rem;
+            }
+            
+            .question p {
+                font-size: 1.1rem;
+            }
+            
+            .option label {
+                font-size: 1rem;
+            }
+            
+            .quiz-controls {
+                flex-direction: column;
+            }
+            
+            .quiz-btn {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            main {
+                padding: 0 1rem;
+            }
+            
+            .intro, #quiz-section, #results, section#coming-soon, section#reviews {
+                padding: 1.5rem;
+            }
+            
+            header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .start-btn {
+                padding: 0.8rem 1.5rem;
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Career Quest for Kids</h1>
+        <p>Discover your future career through fun questions!</p>
+    </header>
+
+    <main>
+        <div class="intro">
+            <h2>Find Your Dream Career!</h2>
+            <p>Take our fun quiz to discover careers that match your interests and personality. Answer 10 simple questions and get personalized career recommendations!</p>
+            <button class="start-btn" onclick="startQuiz()">Start Career Quiz</button>
+        </div>
+
+        <section id="quiz-section">
+            <h2>Career Discovery Quiz</h2>
+            <div id="quiz-container"></div>
+            <div class="quiz-controls">
+                <button class="quiz-btn prev-btn" onclick="prevQuestion()" style="display: none;">Previous</button>
+                <button class="quiz-btn next-btn" onclick="nextQuestion()">Next</button>
+                <button class="quiz-btn submit-btn" onclick="submitQuiz()" style="display: none;">See Results</button>
+            </div>
+        </section>
+
+        <section id="results">
+            <h2>Your Career Recommendations</h2>
+            <div id="career-results"></div>
+        </section>
+
+        <section id="coming-soon">
+            <h2>Coming Soon Features</h2>
+            <ul>
+                <li>College location finder for chosen careers</li>
+                <li>Salary comparison by city/country</li>
+                <li>Real mentor connection for career guidance</li>
+                <li>Internship opportunities tailored to your path</li>
+            </ul>
+        </section>
+
+        <section id="reviews">
+            <h2>What People Say</h2>
+            <form id="review-form" onsubmit="submitReview(event)">
+                <textarea placeholder="Share your experience with our career quiz..." required></textarea>
+                <button type="submit">Submit Review</button>
+            </form>
+            <div id="reviews-list">
+                <div class="review-item">This quiz helped my child discover new career possibilities they never considered before!</div>
+                <div class="review-item">Fun and educational! The questions really made my kids think about their interests.</div>
+                <div class="review-item">Great way to start career conversations with children. The results were surprisingly accurate!</div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2024 Career Quest for Kids. Helping children discover their future paths.</p>
+    </footer>
+
+    <script>
+        // Career data with education and salary info
+        const careers = {
+            doctor: {
+                name: "Doctor",
+                education: "Medical degree (MD) + Residency training",
+                salary: "$100,000 - $250,000 per year",
+                keywords: ["helping", "science", "people", "problem-solving", "responsibility"]
+            },
+            artist: {
+                name: "Artist",
+                education: "Art school or self-taught; portfolio development",
+                salary: "$30,000 - $70,000 per year",
+                keywords: ["creative", "drawing", "imagination", "expression", "colors"]
+            },
+            engineer: {
+                name: "Engineer",
+                education: "Bachelor's degree in Engineering",
+                salary: "$70,000 - $120,000 per year",
+                keywords: ["math", "building", "technology", "problem-solving", "design"]
+            },
+            designer: {
+                name: "Designer",
+                education: "Degree in Graphic/Web/Fashion Design",
+                salary: "$40,000 - $90,000 per year",
+                keywords: ["creative", "colors", "technology", "style", "visual"]
+            },
+            scientist: {
+                name: "Scientist",
+                education: "Bachelor's or higher in Science",
+                salary: "$60,000 - $110,000 per year",
+                keywords: ["curious", "experiments", "math", "research", "nature"]
+            },
+            educator: {
+                name: "Educator",
+                education: "Degree in Education + teaching license",
+                salary: "$35,000 - $70,000 per year",
+                keywords: ["helping", "people", "communication", "patience", "teaching"]
+            },
+            entrepreneur: {
+                name: "Entrepreneur",
+                education: "Business knowledge and experience",
+                salary: "Varies widely; potential for high earnings",
+                keywords: ["leadership", "creative", "risk-taking", "problem-solving", "ideas"]
+            },
+            programmer: {
+                name: "Programmer",
+                education: "Computer Science degree or Coding Bootcamp",
+                salary: "$60,000 - $120,000 per year",
+                keywords: ["technology", "logic", "problem-solving", "computers", "math"]
+            },
+            writer: {
+                name: "Writer",
+                education: "Degree in English or self-taught",
+                salary: "$30,000 - $70,000 per year",
+                keywords: ["creative", "words", "imagination", "expression", "reading"]
+            },
+            chef: {
+                name: "Chef",
+                education: "Culinary school or apprenticeship",
+                salary: "$30,000 - $60,000 per year",
+                keywords: ["creative", "food", "hands-on", "taste", "teamwork"]
+            }
+        };
+
+        // Quiz questions and options
+        const questions = [
+            {
+                q: "What do you like to do in your free time?",
+                options: [
+                    { text: "Draw, paint, or create art", value: ["creative", "colors", "imagination"] },
+                    { text: "Solve puzzles or play logic games", value: ["problem-solving", "logic", "math"] },
+                    { text: "Help friends or family with problems", value: ["helping", "people", "communication"] },
+                    { text: "Build or fix things", value: ["building", "hands-on", "technology"] }
+                ]
+            },
+            {
+                q: "Which subject do you enjoy the most at school?",
+                options: [
+                    { text: "Science (biology, chemistry, physics)", value: ["science", "experiments", "curious"] },
+                    { text: "Math", value: ["math", "logic", "problem-solving"] },
+                    { text: "Art or music", value: ["creative", "expression", "colors"] },
+                    { text: "Language or reading", value: ["words", "reading", "imagination"] }
+                ]
+            },
+            {
+                q: "What kind of activities do you prefer?",
+                options: [
+                    { text: "Working with computers or technology", value: ["technology", "computers", "logic"] },
+                    { text: "Helping and teaching others", value: ["helping", "teaching", "patience"] },
+                    { text: "Leading a group or starting new projects", value: ["leadership", "ideas", "risk-taking"] },
+                    { text: "Cooking or experimenting with food", value: ["creative", "food", "hands-on"] }
+                ]
+            },
+            {
+                q: "How would your friends describe you?",
+                options: [
+                    { text: "Creative and imaginative", value: ["creative", "imagination", "expression"] },
+                    { text: "Curious and scientific", value: ["curious", "science", "research"] },
+                    { text: "Helpful and kind", value: ["helping", "people", "communication"] },
+                    { text: "Logical and organized", value: ["logic", "problem-solving", "math"] }
+                ]
+            },
+            {
+                q: "What kind of environment do you like best?",
+                options: [
+                    { text: "A lab or science center", value: ["science", "experiments", "research"] },
+                    { text: "A studio or art room", value: ["creative", "colors", "expression"] },
+                    { text: "An office or tech space", value: ["technology", "computers", "logic"] },
+                    { text: "A kitchen or restaurant", value: ["food", "hands-on", "creative"] }
+                ]
+            },
+            {
+                q: "What motivates you the most?",
+                options: [
+                    { text: "Making new things or inventions", value: ["creative", "building", "ideas"] },
+                    { text: "Helping people feel better or learn", value: ["helping", "teaching", "people"] },
+                    { text: "Solving tricky problems", value: ["problem-solving", "logic", "math"] },
+                    { text: "Expressing yourself through art or words", value: ["creative", "expression", "words"] }
+                ]
+            },
+            {
+                q: "Which of these sounds most fun?",
+                options: [
+                    { text: "Designing clothes, websites, or graphics", value: ["creative", "design", "colors"] },
+                    { text: "Writing stories, poems, or articles", value: ["words", "imagination", "reading"] },
+                    { text: "Programming games or apps", value: ["technology", "logic", "computers"] },
+                    { text: "Leading a team or starting a business", value: ["leadership", "risk-taking", "ideas"] }
+                ]
+            },
+            {
+                q: "If you could pick a superpower, what would it be?",
+                options: [
+                    { text: "Super smart and curious", value: ["curious", "science", "research"] },
+                    { text: "Creative imagination", value: ["creative", "imagination", "expression"] },
+                    { text: "Helping and healing others", value: ["helping", "people", "communication"] },
+                    { text: "Building and fixing anything", value: ["building", "hands-on", "technology"] }
+                ]
+            },
+            {
+                q: "What do you enjoy more?",
+                options: [
+                    { text: "Working alone on projects", value: ["creative", "logic", "imagination"] },
+                    { text: "Working with others and teaching", value: ["helping", "teaching", "people"] },
+                    { text: "Experimenting and discovering", value: ["science", "curious", "research"] },
+                    { text: "Organizing and planning", value: ["logic", "problem-solving", "leadership"] }
+                ]
+            },
+            {
+                q: "Pick a favorite hobby:",
+                options: [
+                    { text: "Drawing, painting, or crafting", value: ["creative", "colors", "expression"] },
+                    { text: "Playing strategy or puzzle games", value: ["logic", "problem-solving", "math"] },
+                    { text: "Helping friends or family", value: ["helping", "people", "communication"] },
+                    { text: "Building models or robots", value: ["building", "technology", "hands-on"] }
+                ]
+            }
+        ];
+
+        let currentQuestion = 0;
+        let userAnswers = [];
+        const quizContainer = document.getElementById('quiz-container');
+        const prevBtn = document.querySelector('.prev-btn');
+        const nextBtn = document.querySelector('.next-btn');
+        const submitBtn = document.querySelector('.submit-btn');
+
+        function startQuiz() {
+            document.querySelector('.intro').style.display = 'none';
+            document.getElementById('quiz-section').style.display = 'block';
+            showQuestion(0);
+        }
+
+        function showQuestion(index) {
+            quizContainer.innerHTML = '';
+            const question = questions[index];
+            
+            const questionDiv = document.createElement('div');
+            questionDiv.className = 'question';
+            questionDiv.innerHTML = `
+                <p>${index + 1}. ${question.q}</p>
+                <div class="options">
+                    ${question.options.map((option, i) => `
+                        <div class="option">
+                            <input type="radio" id="q${index}o${i}" name="question${index}" value="${i}" 
+                                   ${userAnswers[index] === i ? 'checked' : ''}>
+                            <label for="q${index}o${i}">${option.text}</label>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            
+            quizContainer.appendChild(questionDiv);
+            
+            // Update navigation buttons
+            prevBtn.style.display = index > 0 ? 'block' : 'none';
+            nextBtn.style.display = index < questions.length - 1 ? 'block' : 'none';
+            submitBtn.style.display = index === questions.length - 1 ? 'block' : 'none';
+        }
+
+        function nextQuestion() {
+            const selectedOption = document.querySelector(`input[name="question${currentQuestion}"]:checked`);
+            if (!selectedOption) {
+                alert('Please select an answer before continuing.');
+                return;
+            }
+            
+            userAnswers[currentQuestion] = parseInt(selectedOption.value);
+            currentQuestion++;
+            showQuestion(currentQuestion);
+        }
+
+        function prevQuestion() {
+            currentQuestion--;
+            showQuestion(currentQuestion);
+        }
+
+        function submitQuiz() {
+            const selectedOption = document.querySelector(`input[name="question${currentQuestion}"]:checked`);
+            if (!selectedOption) {
+                alert('Please select an answer before submitting.');
+                return;
+            }
+            
+            userAnswers[currentQuestion] = parseInt(selectedOption.value);
+            calculateResults();
+        }
+
+        function calculateResults() {
+            // Calculate scores for each career based on keyword matches
+            const careerScores = {};
+            
+            userAnswers.forEach((answerIndex, questionIndex) => {
+                const selectedKeywords = questions[questionIndex].options[answerIndex].value;
+                
+                selectedKeywords.forEach(keyword => {
+                    for (const [career, data] of Object.entries(careers)) {
+                        if (data.keywords.includes(keyword)) {
+                            careerScores[career] = (careerScores[career] || 0) + 1;
+                        }
+                    }
+                });
+            });
+            
+            // Get top 3 careers
+            const sortedCareers = Object.entries(careerScores)
+                .sort(([,a], [,b]) => b - a)
+                .slice(0, 3)
+                .map(([career]) => career);
+            
+            // Ensure we have at least 3 unique careers
+            const allCareers = Object.keys(careers);
+            while (sortedCareers.length < 3) {
+                const randomCareer = allCareers[Math.floor(Math.random() * allCareers.length)];
+                if (!sortedCareers.includes(randomCareer)) {
+                    sortedCareers.push(randomCareer);
+                }
+            }
+            
+            displayResults(sortedCareers);
+        }
+
+        function displayResults(careerKeys) {
+            document.getElementById('quiz-section').style.display = 'none';
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.style.display = 'block';
+            
+            const careerResults = document.getElementById('career-results');
+            careerResults.innerHTML = '';
+            
+            careerKeys.forEach(careerKey => {
+                const career = careers[careerKey];
+                const careerCard = document.createElement('div');
+                careerCard.className = 'career-card';
+                careerCard.innerHTML = `
+                    <h3>${career.name}</h3>
+                    <div class="career-info">
+                        <div class="info-item">
+                            <strong>Education:</strong> ${career.education}
+                        </div>
+                        <div class="info-item">
+                            <strong>Salary:</strong> ${career.salary}
+                        </div>
+                    </div>
+                `;
+                careerResults.appendChild(careerCard);
+            });
+            
+            // Add restart button
+            const restartBtn = document.createElement('button');
+            restartBtn.className = 'start-btn';
+            restartBtn.style.marginTop = '2rem';
+            restartBtn.textContent = 'Take Quiz Again';
+            restartBtn.onclick = () => {
+                currentQuestion = 0;
+                userAnswers = [];
+                resultsDiv.style.display = 'none';
+                document.querySelector('.intro').style.display = 'block';
+            };
+            careerResults.appendChild(restartBtn);
+        }
+
+        function submitReview(event) {
+            event.preventDefault();
+            const textarea = event.target.querySelector('textarea');
+            const reviewText = textarea.value.trim();
+            
+            if (reviewText) {
+                const reviewItem = document.createElement('div');
+                reviewItem.className = 'review-item';
+                reviewItem.textContent = reviewText;
+                document.getElementById('reviews-list').prepend(reviewItem);
+                textarea.value = '';
+                
+                alert('Thank you for your feedback!');
+            }
+        }
+    </script>
+</body>
+</html>
